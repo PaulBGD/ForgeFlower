@@ -336,7 +336,7 @@ index a02c40a8a8a2ad1a1888d8a5370625c29c858e27..44927da60f640d940d0ccb6c52d8e4eb
  
    @Override
 diff --git a/src/org/jetbrains/java/decompiler/modules/decompiler/exps/VarExprent.java b/src/org/jetbrains/java/decompiler/modules/decompiler/exps/VarExprent.java
-index f4f21c900d1e0763eeb049a550847d0497e0e7c5..c8bf497f5cac2bb9e3c7b2187a4b70d392ef9e7c 100644
+index b009a3390f3e3fdc0eee8847f324214597c466e7..4792f24edbc5e42c4fade1d800078f8146bdd1cf 100644
 --- a/src/org/jetbrains/java/decompiler/modules/decompiler/exps/VarExprent.java
 +++ b/src/org/jetbrains/java/decompiler/modules/decompiler/exps/VarExprent.java
 @@ -48,6 +48,7 @@ public class VarExprent extends Exprent {
@@ -369,7 +369,7 @@ index f4f21c900d1e0763eeb049a550847d0497e0e7c5..c8bf497f5cac2bb9e3c7b2187a4b70d3
 +
    public String getName() {
      VarVersionPair pair = getVarVersionPair();
-     if (lvt != null)
+     if (DecompilerContext.getOption(IFernflowerPreferences.USE_DEBUG_VAR_NAMES) && lvt != null)
 diff --git a/src/org/jetbrains/java/decompiler/modules/decompiler/sforms/SSAConstructorSparseEx.java b/src/org/jetbrains/java/decompiler/modules/decompiler/sforms/SSAConstructorSparseEx.java
 index 8e57cd727302fe608f178c51ba4a7fb4c8971448..db927122415ad07666d51959debcb24d126c9545 100644
 --- a/src/org/jetbrains/java/decompiler/modules/decompiler/sforms/SSAConstructorSparseEx.java

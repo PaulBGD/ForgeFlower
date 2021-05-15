@@ -1633,7 +1633,7 @@ index 87522af363670f27a69bf5dee95a954ae14ed594..9803a215b8c5bc40658c8210c10e6164
 \ No newline at end of file
 +}
 diff --git a/src/org/jetbrains/java/decompiler/modules/decompiler/exps/VarExprent.java b/src/org/jetbrains/java/decompiler/modules/decompiler/exps/VarExprent.java
-index c6f0eaccf94c55175c19bfc6a4beee9569ab9dc0..60048a473001b72b6eb6b8d903a257c043d76902 100644
+index c6f0eaccf94c55175c19bfc6a4beee9569ab9dc0..527f5c3d6094061e6e486964c0cdd34da79340cc 100644
 --- a/src/org/jetbrains/java/decompiler/modules/decompiler/exps/VarExprent.java
 +++ b/src/org/jetbrains/java/decompiler/modules/decompiler/exps/VarExprent.java
 @@ -9,12 +9,15 @@ import org.jetbrains.java.decompiler.main.collectors.BytecodeMappingTracer;
@@ -1758,7 +1758,7 @@ index c6f0eaccf94c55175c19bfc6a4beee9569ab9dc0..60048a473001b72b6eb6b8d903a257c0
 +
 +  public String getName() {
 +    VarVersionPair pair = getVarVersionPair();
-+    if (lvt != null)
++    if (DecompilerContext.getOption(IFernflowerPreferences.USE_DEBUG_VAR_NAMES) && lvt != null)
 +      return lvt.getName();
 +
 +    if (processor != null) {

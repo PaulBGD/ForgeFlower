@@ -1385,7 +1385,7 @@ index 618634d04bb2b8b95b2c0a4eade8925858d37247..70922878f8847812a120f959679bdc45
 +  }
  }
 diff --git a/src/org/jetbrains/java/decompiler/modules/decompiler/exps/VarExprent.java b/src/org/jetbrains/java/decompiler/modules/decompiler/exps/VarExprent.java
-index 899ca15489fb70ff5f81aa3c947ca4c228ba1d31..f4f21c900d1e0763eeb049a550847d0497e0e7c5 100644
+index 9751080b650a6bf7a26e9f69e25f382baae89f15..b009a3390f3e3fdc0eee8847f324214597c466e7 100644
 --- a/src/org/jetbrains/java/decompiler/modules/decompiler/exps/VarExprent.java
 +++ b/src/org/jetbrains/java/decompiler/modules/decompiler/exps/VarExprent.java
 @@ -14,6 +14,7 @@ import org.jetbrains.java.decompiler.modules.decompiler.vars.CheckTypesResult;

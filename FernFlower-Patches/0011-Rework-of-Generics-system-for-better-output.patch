@@ -1252,7 +1252,7 @@ index 908628d38c0a5aaacc9be16c8a063beb77794fbd..5de387a61a355854e793f7d1e3cd9b20
  
            boolean firstParam = true;
 diff --git a/src/org/jetbrains/java/decompiler/modules/decompiler/exps/VarExprent.java b/src/org/jetbrains/java/decompiler/modules/decompiler/exps/VarExprent.java
-index 60048a473001b72b6eb6b8d903a257c043d76902..899ca15489fb70ff5f81aa3c947ca4c228ba1d31 100644
+index 527f5c3d6094061e6e486964c0cdd34da79340cc..9751080b650a6bf7a26e9f69e25f382baae89f15 100644
 --- a/src/org/jetbrains/java/decompiler/modules/decompiler/exps/VarExprent.java
 +++ b/src/org/jetbrains/java/decompiler/modules/decompiler/exps/VarExprent.java
 @@ -22,6 +22,7 @@ import org.jetbrains.java.decompiler.struct.attr.StructLocalVariableTypeTableAtt
