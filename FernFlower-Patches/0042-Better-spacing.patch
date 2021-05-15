@@ -1,0 +1,101 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Paul Sauve <paul@technove.co>
+Date: Fri, 14 May 2021 17:57:26 -0500
+Subject: [PATCH] Better spacing
+
+
+diff --git a/src/org/jetbrains/java/decompiler/modules/decompiler/ExprProcessor.java b/src/org/jetbrains/java/decompiler/modules/decompiler/ExprProcessor.java
+index cc67f34aeede9a41bd78aeefdf6ac4a88d79348c..8fccbab81f3929b96b9744f098c8dd4355864c7f 100644
+--- a/src/org/jetbrains/java/decompiler/modules/decompiler/ExprProcessor.java
++++ b/src/org/jetbrains/java/decompiler/modules/decompiler/ExprProcessor.java
+@@ -925,7 +925,7 @@ public class ExprProcessor implements CodeConstants {
+       }
+     }
+ 
+-    if (cast) buffer.append('(').append(getCastTypeName(leftType)).append(')');
++    if (cast) buffer.append('(').append(getCastTypeName(leftType)).append(") ");
+ 
+     if (castLambda) buffer.append('(').append(getCastTypeName(rightType)).append(')');
+ 
+diff --git a/src/org/jetbrains/java/decompiler/modules/decompiler/exps/ArrayExprent.java b/src/org/jetbrains/java/decompiler/modules/decompiler/exps/ArrayExprent.java
+index 9fd3f0547c17ca6c52cb725ebf1f90771c5ad456..4d84bb89166deb707f8bd8c3f5057a9521dd1058 100644
+--- a/src/org/jetbrains/java/decompiler/modules/decompiler/exps/ArrayExprent.java
++++ b/src/org/jetbrains/java/decompiler/modules/decompiler/exps/ArrayExprent.java
+@@ -85,7 +85,7 @@ public class ArrayExprent extends Exprent {
+     VarType arrType = array.getExprType();
+     if (arrType.arrayDim == 0) {
+       VarType objArr = VarType.VARTYPE_OBJECT.resizeArrayDim(1); // type family does not change
+-      res.enclose("((" + ExprProcessor.getCastTypeName(objArr) + ")", ")");
++      res.enclose("((" + ExprProcessor.getCastTypeName(objArr) + ") ", ")");
+     }
+ 
+     tracer.addMapping(bytecode);
+diff --git a/src/org/jetbrains/java/decompiler/modules/decompiler/exps/Exprent.java b/src/org/jetbrains/java/decompiler/modules/decompiler/exps/Exprent.java
+index 8074782862f3842a95050212df0ac5d778f20091..819fc9fb1cdfedf319406c56c862a695e1e26740 100644
+--- a/src/org/jetbrains/java/decompiler/modules/decompiler/exps/Exprent.java
++++ b/src/org/jetbrains/java/decompiler/modules/decompiler/exps/Exprent.java
+@@ -311,7 +311,7 @@ public abstract class Exprent implements IMatchable {
+       buf.enclose("(", ")");
+     }
+ 
+-    buf.prepend("(" + ExprProcessor.getCastTypeName(left) + ")");
++    buf.prepend("(" + ExprProcessor.getCastTypeName(left) + ") ");
+   }
+ 
+   public void setInvocationInstance() {}
+diff --git a/src/org/jetbrains/java/decompiler/modules/decompiler/exps/FunctionExprent.java b/src/org/jetbrains/java/decompiler/modules/decompiler/exps/FunctionExprent.java
+index 1f27ed6c5ab25460b0e67c728c7fdcaa23e6c268..03e1639c16d279ad671f52b9f6345a0aa0deca86 100644
+--- a/src/org/jetbrains/java/decompiler/modules/decompiler/exps/FunctionExprent.java
++++ b/src/org/jetbrains/java/decompiler/modules/decompiler/exps/FunctionExprent.java
+@@ -528,7 +528,7 @@ public class FunctionExprent extends Exprent {
+         if (!needsCast) {
+           return lstOperands.get(0).toJava(indent, tracer);
+         }
+-        return lstOperands.get(1).toJava(indent, tracer).enclose("(", ")").append(wrapOperandString(lstOperands.get(0), true, indent, tracer));
++        return lstOperands.get(1).toJava(indent, tracer).enclose("(", ") ").append(wrapOperandString(lstOperands.get(0), true, indent, tracer));
+       case FUNCTION_ARRAY_LENGTH:
+         Exprent arr = lstOperands.get(0);
+ 
+diff --git a/src/org/jetbrains/java/decompiler/modules/decompiler/exps/InvocationExprent.java b/src/org/jetbrains/java/decompiler/modules/decompiler/exps/InvocationExprent.java
+index 74e4440c8cb062db041ca853b7292196e89b106f..35f5417c3f1b075ed980170292be3e964fe80e0a 100644
+--- a/src/org/jetbrains/java/decompiler/modules/decompiler/exps/InvocationExprent.java
++++ b/src/org/jetbrains/java/decompiler/modules/decompiler/exps/InvocationExprent.java
+@@ -596,7 +596,7 @@ public class InvocationExprent extends Exprent {
+             ((FunctionExprent)instance).getFuncType() == FunctionExprent.FUNCTION_CAST && !((FunctionExprent)instance).doesCast();
+ 
+           if (rightType.equals(VarType.VARTYPE_OBJECT) && !leftType.equals(rightType)) {
+-            buf.append("((").append(ExprProcessor.getCastTypeName(leftType)).append(")");
++            buf.append("((").append(ExprProcessor.getCastTypeName(leftType)).append(") ");
+ 
+             if (instance.getPrecedence() >= FunctionExprent.getPrecedence(FunctionExprent.FUNCTION_CAST)) {
+               res.enclose("(", ")");
+diff --git a/src/org/jetbrains/java/decompiler/modules/decompiler/stats/DoStatement.java b/src/org/jetbrains/java/decompiler/modules/decompiler/stats/DoStatement.java
+index 46635ec712d20adf9dd3396d2c62846aa8ef6bee..7857a49bbff2b64735d4968d637d1bb9684b699e 100644
+--- a/src/org/jetbrains/java/decompiler/modules/decompiler/stats/DoStatement.java
++++ b/src/org/jetbrains/java/decompiler/modules/decompiler/stats/DoStatement.java
+@@ -91,7 +91,7 @@ public final class DoStatement extends Statement {
+ 
+     switch (looptype) {
+       case LOOP_DO:
+-        buf.appendIndent(indent).append("while(true) {").appendLineSeparator();
++        buf.appendIndent(indent).append("while (true) {").appendLineSeparator();
+         tracer.incrementCurrentSourceLine();
+         buf.append(ExprProcessor.jmpWrapper(first, indent + 1, false, tracer));
+         buf.appendIndent(indent).append("}").appendLineSeparator();
+@@ -105,14 +105,14 @@ public final class DoStatement extends Statement {
+         tracer.incrementCurrentSourceLine();
+         break;
+       case LOOP_WHILE:
+-        buf.appendIndent(indent).append("while(").append(conditionExprent.get(0).toJava(indent, tracer)).append(") {").appendLineSeparator();
++        buf.appendIndent(indent).append("while (").append(conditionExprent.get(0).toJava(indent, tracer)).append(") {").appendLineSeparator();
+         tracer.incrementCurrentSourceLine();
+         buf.append(ExprProcessor.jmpWrapper(first, indent + 1, false, tracer));
+         buf.appendIndent(indent).append("}").appendLineSeparator();
+         tracer.incrementCurrentSourceLine();
+         break;
+       case LOOP_FOR:
+-        buf.appendIndent(indent).append("for(");
++        buf.appendIndent(indent).append("for (");
+         if (initExprent.get(0) != null) {
+           buf.append(initExprent.get(0).toJava(indent, tracer));
+         }

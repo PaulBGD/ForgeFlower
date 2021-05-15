@@ -1,0 +1,176 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Paul Sauve <paul@technove.co>
+Date: Fri, 14 May 2021 16:13:29 -0500
+Subject: [PATCH] Rename variables based off type
+
+
+diff --git a/src/org/jetbrains/java/decompiler/main/collectors/VarNamesCollector.java b/src/org/jetbrains/java/decompiler/main/collectors/VarNamesCollector.java
+index 5d03d2e9a5854f2a11afd384d06af765bb422ce7..5f34e4229fb3c44e39051256324f8b0c0fe6674f 100644
+--- a/src/org/jetbrains/java/decompiler/main/collectors/VarNamesCollector.java
++++ b/src/org/jetbrains/java/decompiler/main/collectors/VarNamesCollector.java
+@@ -1,12 +1,14 @@
+ // Copyright 2000-2017 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
+ package org.jetbrains.java.decompiler.main.collectors;
+ 
++import java.util.Arrays;
+ import java.util.Collection;
+ import java.util.HashSet;
+ import java.util.Set;
+ 
+ public class VarNamesCollector {
+ 
++  private static final Set<String> reserved = new HashSet<>(Arrays.asList("byte", "char", "double", "float", "int", "long", "short", "boolean", "class"));
+   private final Set<String> usedNames = new HashSet<>();
+ 
+   public VarNamesCollector() { }
+@@ -19,13 +21,21 @@ public class VarNamesCollector {
+     usedNames.add(value);
+   }
+ 
++  public boolean isNameAvailable(String name) {
++    return !reserved.contains(name) && !usedNames.contains(name);
++  }
++
+   public String getFreeName(int index) {
+     return getFreeName("var" + index);
+   }
+ 
+   public String getFreeName(String proposition) {
+-    while (usedNames.contains(proposition)) {
+-      proposition += "x";
++    String original = proposition;
++    int index = 1;
++    while (reserved.contains(proposition) || usedNames.contains(proposition)) {
++//      proposition += "x";
++      proposition = original + index;
++      index++;
+     }
+     usedNames.add(proposition);
+     return proposition;
+diff --git a/src/org/jetbrains/java/decompiler/main/extern/IFernflowerPreferences.java b/src/org/jetbrains/java/decompiler/main/extern/IFernflowerPreferences.java
+index a2be81c2a329812c30ffe2606cae2b5f7ab43c3c..4ee20ddb561b669d60412f20a07e58b69fe535ad 100644
+--- a/src/org/jetbrains/java/decompiler/main/extern/IFernflowerPreferences.java
++++ b/src/org/jetbrains/java/decompiler/main/extern/IFernflowerPreferences.java
+@@ -39,6 +39,7 @@ public interface IFernflowerPreferences {
+   String EXPLICIT_GENERIC_ARGUMENTS = "ega";
+   String INLINE_SIMPLE_LAMBDAS = "isl";
+   String THREADS = "thr";
++  String RENAME_TYPES = "rnt";
+ 
+   String LOG_LEVEL = "log";
+   String MAX_PROCESSING_METHOD = "mpm";
+@@ -94,6 +95,7 @@ public interface IFernflowerPreferences {
+     defaults.put(EXPLICIT_GENERIC_ARGUMENTS, "0");
+     defaults.put(INLINE_SIMPLE_LAMBDAS, "1");
+     defaults.put(THREADS, "AUTO");
++    defaults.put(RENAME_TYPES, "0");
+ 
+     defaults.put(LOG_LEVEL, IFernflowerLogger.Severity.INFO.name());
+     defaults.put(MAX_PROCESSING_METHOD, "0");
+diff --git a/src/org/jetbrains/java/decompiler/main/rels/ClassWrapper.java b/src/org/jetbrains/java/decompiler/main/rels/ClassWrapper.java
+index 438b04c518f193ac3b229701ddfdaf7cde5cad6e..62fbaf8daca798790cd24c38a0e1e503406609ec 100644
+--- a/src/org/jetbrains/java/decompiler/main/rels/ClassWrapper.java
++++ b/src/org/jetbrains/java/decompiler/main/rels/ClassWrapper.java
+@@ -105,7 +105,7 @@ public class ClassWrapper {
+ 
+           int varIndex = 0;
+           for (int i = 0; i < paramCount; i++) {
+-            varProc.setVarName(new VarVersionPair(varIndex, 0), vc.getFreeName(varIndex));
++            varProc.setVarName(new VarVersionPair(varIndex, 0), vc.getFreeName("param" + varIndex));
+ 
+             if (thisVar) {
+               if (i == 0) {
+diff --git a/src/org/jetbrains/java/decompiler/modules/decompiler/vars/VarDefinitionHelper.java b/src/org/jetbrains/java/decompiler/modules/decompiler/vars/VarDefinitionHelper.java
+index 1b1d911df7b6767a56f543980b3adbb05f7cdb5d..5e5347b5868ee18da49ab0c6e8f3971c0b2784bc 100644
+--- a/src/org/jetbrains/java/decompiler/modules/decompiler/vars/VarDefinitionHelper.java
++++ b/src/org/jetbrains/java/decompiler/modules/decompiler/vars/VarDefinitionHelper.java
+@@ -75,6 +75,7 @@ public class VarDefinitionHelper {
+       implDefVars.add(varindex);
+       VarVersionPair vpp = new VarVersionPair(varindex, 0);
+       varproc.setVarName(vpp, vc.getFreeName(varindex));
++      varproc.setBestName(vpp);
+ 
+       if (thisvar) {
+         if (i == 0) {
+@@ -121,7 +122,7 @@ public class VarDefinitionHelper {
+       if (lstVars != null) {
+         for (VarExprent var : lstVars) {
+           implDefVars.add(var.getIndex());
+-          varproc.setVarName(new VarVersionPair(var), vc.getFreeName(var.getIndex()));
++          varproc.setBestName(new VarVersionPair(var));
+           var.setDefinition(true);
+         }
+       }
+@@ -144,7 +145,7 @@ public class VarDefinitionHelper {
+         continue;
+       }
+ 
+-      varproc.setVarName(new VarVersionPair(index.intValue(), 0), vc.getFreeName(index));
++      varproc.setBestName(new VarVersionPair(index.intValue(), 0));
+ 
+       // special case for
+       if (stat.type == Statement.TYPE_DO) {
+diff --git a/src/org/jetbrains/java/decompiler/modules/decompiler/vars/VarProcessor.java b/src/org/jetbrains/java/decompiler/modules/decompiler/vars/VarProcessor.java
+index bc8fa493167a5fabf772403550511855bd24de1a..65a44be6431f7fe467ab01d998ae5038058e40cf 100644
+--- a/src/org/jetbrains/java/decompiler/modules/decompiler/vars/VarProcessor.java
++++ b/src/org/jetbrains/java/decompiler/modules/decompiler/vars/VarProcessor.java
+@@ -1,7 +1,10 @@
+ // Copyright 2000-2021 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
+ package org.jetbrains.java.decompiler.modules.decompiler.vars;
+ 
++import org.jetbrains.java.decompiler.main.DecompilerContext;
+ import org.jetbrains.java.decompiler.main.collectors.VarNamesCollector;
++import org.jetbrains.java.decompiler.main.extern.IFernflowerPreferences;
++import org.jetbrains.java.decompiler.modules.decompiler.ExprProcessor;
+ import org.jetbrains.java.decompiler.modules.decompiler.exps.VarExprent;
+ import org.jetbrains.java.decompiler.modules.decompiler.stats.RootStatement;
+ import org.jetbrains.java.decompiler.modules.decompiler.stats.Statement;
+@@ -198,4 +201,48 @@ public class VarProcessor {
+   public LocalVariable getVarLVT(VarVersionPair var) {
+     return mapVarLVTs.get(var);
+   }
++
++  private static String toCamelCase(String s) {
++    String[] tokens = s.split("[\\W_]+|(?<=[a-z])(?=[A-Z][a-z])");
++    StringBuilder output = new StringBuilder();
++    for (String token : tokens) {
++      String lowercaseToken = token.toLowerCase();
++      output.append(tokens[0].equals(token) ? lowercaseToken : lowercaseToken.toUpperCase().charAt(0) + lowercaseToken.substring(1));
++    }
++    return output.toString();
++  }
++
++  public void setBestName(VarVersionPair pair) {
++    this.setVarName(pair, this.getBestName(pair));
++  }
++
++  public String getBestName(VarVersionPair pair) {
++    VarNamesCollector vc = this.getVarNamesCollector();
++    VarType varType;
++    if (DecompilerContext.getOption(IFernflowerPreferences.RENAME_TYPES) && (varType = this.getVarType(pair)) != null) {
++        String realName = ExprProcessor.getTypeName(varType, true);
++        if (realName.contains(".")) {
++          String[] split = realName.split("\\.");
++          realName = split[split.length - 1];
++          if (realName.length() == 0) {
++            realName = "lambda";
++          }
++        }
++
++        String[] split = realName.split("(?=\\p{Lu})");
++
++        if (split.length > 1) {
++          for (int i = split.length - 1; i >= 0; i--) {
++            realName = String.join("", Arrays.copyOfRange(split, i, split.length));
++            if (vc.isNameAvailable(realName)) {
++              break;
++            }
++          }
++        }
++
++        return vc.getFreeName(toCamelCase(realName));
++      } else {
++        return vc.getFreeName(pair.var);
++      }
++  }
+ }
