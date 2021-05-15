@@ -864,7 +864,7 @@ index 4172874fff5ab1323bb477bbf3cdd5710a197945..380f47a9de0e1b9d342d5c8557175d7e
 +  }
  }
 diff --git a/src/org/jetbrains/java/decompiler/modules/decompiler/exps/NewExprent.java b/src/org/jetbrains/java/decompiler/modules/decompiler/exps/NewExprent.java
-index e946c9a285276d946475add0803bfa789ccdd155..7914279296b8aaa495f85bed6439676c15963411 100644
+index 30cbed46bbe16418c3092d9a0925fc6cd91836dc..908628d38c0a5aaacc9be16c8a063beb77794fbd 100644
 --- a/src/org/jetbrains/java/decompiler/modules/decompiler/exps/NewExprent.java
 +++ b/src/org/jetbrains/java/decompiler/modules/decompiler/exps/NewExprent.java
 @@ -20,8 +20,9 @@ import org.jetbrains.java.decompiler.util.ListStack;

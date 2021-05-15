@@ -909,7 +909,7 @@ index ebb845dff674965ff3e0e8011db33dae5270e24d..a02c40a8a8a2ad1a1888d8a5370625c2
    public void getBytecodeRange(BitSet values) {
      measureBytecode(values, lstParameters);
 diff --git a/src/org/jetbrains/java/decompiler/modules/decompiler/exps/NewExprent.java b/src/org/jetbrains/java/decompiler/modules/decompiler/exps/NewExprent.java
-index bf254b8d843526d872092f4b0a000b13baef518a..2bf3ce1584a2926a628318b7dacb21290803108b 100644
+index 618634d04bb2b8b95b2c0a4eade8925858d37247..70922878f8847812a120f959679bdc4526e59b76 100644
 --- a/src/org/jetbrains/java/decompiler/modules/decompiler/exps/NewExprent.java
 +++ b/src/org/jetbrains/java/decompiler/modules/decompiler/exps/NewExprent.java
 @@ -5,7 +5,16 @@ import org.jetbrains.java.decompiler.code.CodeConstants;

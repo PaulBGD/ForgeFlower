@@ -5,7 +5,7 @@ Subject: [PATCH] Fix initializers for anon and synthetic classes
 
 
 diff --git a/src/org/jetbrains/java/decompiler/main/ClassWriter.java b/src/org/jetbrains/java/decompiler/main/ClassWriter.java
-index 2d57c02d34e186e440ee0afccac79545b5a190cf..16a7cfebe26dfe0f6244a46f9af271758be274da 100644
+index e71b0f8658fbb4b6424e5353560ed9a11ec5a531..106ba59dd57d7bd4b7d6395b93f5717230785fb3 100644
 --- a/src/org/jetbrains/java/decompiler/main/ClassWriter.java
 +++ b/src/org/jetbrains/java/decompiler/main/ClassWriter.java
 @@ -39,6 +39,7 @@ public class ClassWriter {

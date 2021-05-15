@@ -121,7 +121,7 @@ index e082267cf9e2f20df662ff3565d69d0966df1126..425c2e4480f2c57993e3d4a38f66cfdc
 \ No newline at end of file
 +}
 diff --git a/src/org/jetbrains/java/decompiler/main/ClassWriter.java b/src/org/jetbrains/java/decompiler/main/ClassWriter.java
-index 16a7cfebe26dfe0f6244a46f9af271758be274da..88ce62444af95efcef19fb1c754cb45db00d4392 100644
+index 106ba59dd57d7bd4b7d6395b93f5717230785fb3..f5a210c1b6888e47174e045b46de31d14218b085 100644
 --- a/src/org/jetbrains/java/decompiler/main/ClassWriter.java
 +++ b/src/org/jetbrains/java/decompiler/main/ClassWriter.java
 @@ -446,7 +446,7 @@ public class ClassWriter {
@@ -1170,7 +1170,7 @@ index 9803a215b8c5bc40658c8210c10e61644b519231..d72870ee498d9da075a08dc6e2afef90
            ambiguous.set(i);
            break;
 diff --git a/src/org/jetbrains/java/decompiler/modules/decompiler/exps/NewExprent.java b/src/org/jetbrains/java/decompiler/modules/decompiler/exps/NewExprent.java
-index 7914279296b8aaa495f85bed6439676c15963411..f99fdc492e9ca76a1f14695e832ea193b920c1e1 100644
+index 908628d38c0a5aaacc9be16c8a063beb77794fbd..5de387a61a355854e793f7d1e3cd9b207ba700c8 100644
 --- a/src/org/jetbrains/java/decompiler/modules/decompiler/exps/NewExprent.java
 +++ b/src/org/jetbrains/java/decompiler/modules/decompiler/exps/NewExprent.java
 @@ -14,7 +14,6 @@ import org.jetbrains.java.decompiler.modules.decompiler.vars.VarVersionPair;

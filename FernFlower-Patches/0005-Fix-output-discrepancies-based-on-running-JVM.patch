@@ -193,7 +193,7 @@ index bf4d889cea52307dede26a398ac9a81ec4577934..05e945fa82190610c0147389204d579d
      }
    }
 diff --git a/src/org/jetbrains/java/decompiler/modules/decompiler/decompose/DominatorTreeExceptionFilter.java b/src/org/jetbrains/java/decompiler/modules/decompiler/decompose/DominatorTreeExceptionFilter.java
-index d8b587fff8b748fd4187453c31a5b39e43bc8ecb..318d95cd5427cda3ec721797c181fe68cb95b6db 100644
+index ec1181d1678f0f6f5d39c1a9e11ad3ba840e605d..91abe8ba43d443f2e714a302d41ee5ef59a0d79e 100644
 --- a/src/org/jetbrains/java/decompiler/modules/decompiler/decompose/DominatorTreeExceptionFilter.java
 +++ b/src/org/jetbrains/java/decompiler/modules/decompiler/decompose/DominatorTreeExceptionFilter.java
 @@ -13,10 +13,10 @@ public class DominatorTreeExceptionFilter {

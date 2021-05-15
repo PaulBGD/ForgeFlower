@@ -71,10 +71,10 @@ index 4c5641fec76837a51094d4a54800d5b7475446ca..7d29c198014cbfee8092fd31461208ce
    private static boolean isTestDataDir(File dir) {
      return dir.isDirectory() && new File(dir, "classes").isDirectory() && new File(dir, "results").isDirectory();
 diff --git a/test/org/jetbrains/java/decompiler/SingleClassesTest.java b/test/org/jetbrains/java/decompiler/SingleClassesTest.java
-index feea5aad81ebdff6221e13cfc8472b4b5c2d78c0..1e8014083efc7c0fdfad40747cccbcd0bf33c608 100644
+index e0a9b6fdc9b33f45a402ef6b9f6b8d2cc39a34df..1e8014083efc7c0fdfad40747cccbcd0bf33c608 100644
 --- a/test/org/jetbrains/java/decompiler/SingleClassesTest.java
 +++ b/test/org/jetbrains/java/decompiler/SingleClassesTest.java
-@@ -1,37 +1,20 @@
+@@ -1,46 +1,20 @@
  // Copyright 2000-2021 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
  package org.jetbrains.java.decompiler;
  
@@ -82,7 +82,9 @@ index feea5aad81ebdff6221e13cfc8472b4b5c2d78c0..1e8014083efc7c0fdfad40747cccbcd0
  import org.jetbrains.java.decompiler.main.extern.IFernflowerPreferences;
 -import org.junit.After;
 -import org.junit.Before;
+-import org.junit.Rule;
  import org.junit.Test;
+-import org.junit.rules.Timeout;
  
 -import java.io.File;
 -import java.io.IOException;
@@ -95,6 +97,13 @@ index feea5aad81ebdff6221e13cfc8472b4b5c2d78c0..1e8014083efc7c0fdfad40747cccbcd0
 -
 -public class SingleClassesTest {
 -  private DecompilerTestFixture fixture;
+-
+-  /*
+-   * Set individual test duration time limit to 60 seconds.
+-   * This will help us to test bugs hanging decompiler.
+-   */
+-  @Rule
+-  public Timeout globalTimeout = Timeout.seconds(60);
 -
 -  @Before
 -  public void setUp() throws IOException {
@@ -123,10 +132,12 @@ index feea5aad81ebdff6221e13cfc8472b4b5c2d78c0..1e8014083efc7c0fdfad40747cccbcd0
    }
  
    @Test public void testPrimitiveNarrowing() { doTest("pkg/TestPrimitiveNarrowing"); }
-@@ -134,45 +117,4 @@ public class SingleClassesTest {
+@@ -143,47 +117,4 @@ public class SingleClassesTest {
    @Test public void testRecordVararg() { doTest("records/TestRecordVararg"); }
    @Test public void testRecordGenericVararg() { doTest("records/TestRecordGenericVararg"); }
    @Test public void testRecordAnno() { doTest("records/TestRecordAnno"); }
+-
+-  @Test public void testInheritanceChainCycle() { doTest("pkg/TestInheritanceChainCycle"); }
 -
 -  private void doTest(String testFile, String... companionFiles) {
 -    ConsoleDecompiler decompiler = fixture.getDecompiler();
