@@ -74,13 +74,13 @@ def gitVersion() {
     if (branch != null && branch.startsWith('pulls/'))
         branch = 'pr' + branch.rsplit('/', 1)[1]
     if (branch in [null, 'master', 'HEAD'])
-        return "${info.tag}.${info.offset}".toString()
+        return "${info.tag}".toString()
     return "${info.tag}.${info.offset}-${branch}".toString()
 }
 
 project(':ForgeFlower') {
     apply from: rootProject.file('fernflower.gradle')
-    compileJava.dependsOn rootProject.tasks.applyPatches
+//    compileJava.dependsOn rootProject.tasks.applyPatches
 }
 
 project(':ForgeFlower9') {
