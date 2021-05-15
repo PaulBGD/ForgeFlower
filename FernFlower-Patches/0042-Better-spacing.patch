@@ -70,7 +70,7 @@ index 74e4440c8cb062db041ca853b7292196e89b106f..35f5417c3f1b075ed980170292be3e96
              if (instance.getPrecedence() >= FunctionExprent.getPrecedence(FunctionExprent.FUNCTION_CAST)) {
                res.enclose("(", ")");
 diff --git a/src/org/jetbrains/java/decompiler/modules/decompiler/stats/DoStatement.java b/src/org/jetbrains/java/decompiler/modules/decompiler/stats/DoStatement.java
-index 46635ec712d20adf9dd3396d2c62846aa8ef6bee..7857a49bbff2b64735d4968d637d1bb9684b699e 100644
+index 46635ec712d20adf9dd3396d2c62846aa8ef6bee..202791710b611ac16dd5ea6fcd063de191f6620f 100644
 --- a/src/org/jetbrains/java/decompiler/modules/decompiler/stats/DoStatement.java
 +++ b/src/org/jetbrains/java/decompiler/modules/decompiler/stats/DoStatement.java
 @@ -91,7 +91,7 @@ public final class DoStatement extends Statement {
@@ -82,7 +82,12 @@ index 46635ec712d20adf9dd3396d2c62846aa8ef6bee..7857a49bbff2b64735d4968d637d1bb9
          tracer.incrementCurrentSourceLine();
          buf.append(ExprProcessor.jmpWrapper(first, indent + 1, false, tracer));
          buf.appendIndent(indent).append("}").appendLineSeparator();
-@@ -105,14 +105,14 @@ public final class DoStatement extends Statement {
+@@ -101,18 +101,18 @@ public final class DoStatement extends Statement {
+         buf.appendIndent(indent).append("do {").appendLineSeparator();
+         tracer.incrementCurrentSourceLine();
+         buf.append(ExprProcessor.jmpWrapper(first, indent + 1, false, tracer));
+-        buf.appendIndent(indent).append("} while(").append(conditionExprent.get(0).toJava(indent, tracer)).append(");").appendLineSeparator();
++        buf.appendIndent(indent).append("} while (").append(conditionExprent.get(0).toJava(indent, tracer)).append(");").appendLineSeparator();
          tracer.incrementCurrentSourceLine();
          break;
        case LOOP_WHILE:
@@ -99,3 +104,12 @@ index 46635ec712d20adf9dd3396d2c62846aa8ef6bee..7857a49bbff2b64735d4968d637d1bb9
          if (initExprent.get(0) != null) {
            buf.append(initExprent.get(0).toJava(indent, tracer));
          }
+@@ -125,7 +125,7 @@ public final class DoStatement extends Statement {
+         tracer.incrementCurrentSourceLine();
+         break;
+       case LOOP_FOREACH:
+-        buf.appendIndent(indent).append("for(").append(initExprent.get(0).toJava(indent, tracer));
++        buf.appendIndent(indent).append("for (").append(initExprent.get(0).toJava(indent, tracer));
+         incExprent.get(0).getInferredExprType(null); //TODO: Find a better then null? For now just calls it to clear casts if needed
+         buf.append(" : ").append(incExprent.get(0).toJava(indent, tracer)).append(") {").appendLineSeparator();
+         tracer.incrementCurrentSourceLine();

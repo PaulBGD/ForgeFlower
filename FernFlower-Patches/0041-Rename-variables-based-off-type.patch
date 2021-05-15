@@ -5,10 +5,10 @@ Subject: [PATCH] Rename variables based off type
 
 
 diff --git a/src/org/jetbrains/java/decompiler/main/collectors/VarNamesCollector.java b/src/org/jetbrains/java/decompiler/main/collectors/VarNamesCollector.java
-index 5d03d2e9a5854f2a11afd384d06af765bb422ce7..5f34e4229fb3c44e39051256324f8b0c0fe6674f 100644
+index 5d03d2e9a5854f2a11afd384d06af765bb422ce7..cb99e7585e586fa1d02194809c9a5fe70595cc48 100644
 --- a/src/org/jetbrains/java/decompiler/main/collectors/VarNamesCollector.java
 +++ b/src/org/jetbrains/java/decompiler/main/collectors/VarNamesCollector.java
-@@ -1,12 +1,14 @@
+@@ -1,12 +1,26 @@
  // Copyright 2000-2017 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
  package org.jetbrains.java.decompiler.main.collectors;
  
@@ -19,11 +19,23 @@ index 5d03d2e9a5854f2a11afd384d06af765bb422ce7..5f34e4229fb3c44e39051256324f8b0c
  
  public class VarNamesCollector {
  
-+  private static final Set<String> reserved = new HashSet<>(Arrays.asList("byte", "char", "double", "float", "int", "long", "short", "boolean", "class"));
++  private static final Set<String> reserved = new HashSet<>(Arrays.asList(
++    "abstract", "continue",     "for",          "new",          "switch",
++    "assert",   "default",      "if",           "package",      "synchronized",
++    "boolean",  "do",           "goto",         "private",      "this",
++    "break",    "double",       "implements",   "protected",    "throw",
++    "byte",     "else",         "import",       "public",       "throws",
++    "case",     "enum",         "instanceof",   "return",       "transient",
++    "catch",    "extends",      "int",          "short",        "try",
++    "char",     "final",        "interface",    "static",       "void",
++    "class",    "finally",      "long",         "strictfp",     "volatile",
++    "const",    "float",        "native",       "super",        "while",
++    "null",     "true",         "false"
++  ));
    private final Set<String> usedNames = new HashSet<>();
  
    public VarNamesCollector() { }
-@@ -19,13 +21,21 @@ public class VarNamesCollector {
+@@ -19,13 +33,21 @@ public class VarNamesCollector {
      usedNames.add(value);
    }
  
